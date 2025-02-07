@@ -35,6 +35,7 @@ env/
 temp_audio/
 outputs/
 models/
+Mistral-7B-Instruct-v0.2/
 
 # Fichiers audio
 *.mp3
