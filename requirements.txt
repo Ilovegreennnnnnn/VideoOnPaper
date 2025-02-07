@@ -1,0 +1,10 @@
+torch
+openai-whisper
+transformers
+pydub
+moviepy
+nltk
+spacy
+tqdm
+numpy
+ffmpeg-python
