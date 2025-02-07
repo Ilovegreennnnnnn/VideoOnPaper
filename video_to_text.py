@@ -88,19 +88,38 @@ class VideoToTextConverter:
             raise
 
 def main():
-    # Exemple d'utilisation
-    converter = VideoToTextConverter(model_size="medium")
+    import argparse
     
-    # Remplacer par le chemin de votre vidéo
-    video_path = "chemin/vers/votre/video.mp4"
+    parser = argparse.ArgumentParser(description='Convertir une vidéo en texte et générer un résumé')
+    parser.add_argument('video_path', help='Chemin vers le fichier vidéo à traiter')
+    parser.add_argument('--model', default='medium', choices=['tiny', 'base', 'small', 'medium', 'large'],
+                      help='Taille du modèle Whisper à utiliser (default: medium)')
+    args = parser.parse_args()
     
-    if os.path.exists(video_path):
-        results = converter.process_video(video_path)
-        print("\nTraitement terminé!")
+    if not os.path.exists(args.video_path):
+        print(f"Erreur : Le fichier vidéo '{args.video_path}' n'existe pas!")
+        return
+
+    try:
+        converter = VideoToTextConverter(model_size=args.model)
+        print(f"\nTraitement de la vidéo : {args.video_path}")
+        print(f"Modèle Whisper utilisé : {args.model}")
+        
+        results = converter.process_video(args.video_path)
+        
+        print("\nTraitement terminé avec succès!")
         print(f"Transcription sauvegardée dans: {results['transcript_file']}")
         print(f"Résumé sauvegardé dans: {results['summary_file']}")
-    else:
-        print("Fichier vidéo non trouvé!")
+        
+        # Afficher un extrait du résumé
+        print("\nExtrait du résumé :")
+        print("-" * 50)
+        summary = results['summary'][:500] + "..." if len(results['summary']) > 500 else results['summary']
+        print(summary)
+        print("-" * 50)
+        
+    except Exception as e:
+        print(f"\nUne erreur est survenue lors du traitement : {str(e)}")
 
 if __name__ == "__main__":
     main()

@@ -36,5 +36,10 @@ temp_audio/
 outputs/
 models/
 
+# Fichiers audio
+*.mp3
+*.wav
+*.m4a
+
 # Logs
 *.log
